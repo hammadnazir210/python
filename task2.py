@@ -1,28 +1,15 @@
 import json
+name=input("Enter your name: ")
+phone=int(input("Enter your Phone Number: "))
 
-try:
-    # read file
-    with open("contacts.json", "r") as f:
-        contacts = json.load(f)
-except (FileNotFoundError, json.JSONDecodeError)
-    contacts = {}
+with open("contact.json") as f:
+    contact=json.load(f)
 
-    with open("contacts.json", "w") as f:
-        json.dump(contacts, f, indent=4)
-        print("new file ban gyi {}")
+    contact [name]= phone
 
+with open("contact.json" , "w") as f:
+    json.dump(contact,f,indent=4)
+   
 
-
-name=input("Enter your Name: ")
-phone=int(input("Enter your phone number: "))
-
-with open("week2\contacts.json") as f:
-    contacts=json.load(f)
-
-    contacts[name]=phone
-
-with open("week2\contacts.json ","w") as f:
-    json.dump(contacts,f,indent=4)
-
-    for key, value in contacts.items():
-        print(f"{key} : {value}")   
+    for key, value in contact.items():
+        print(f" {key} : {value}")
