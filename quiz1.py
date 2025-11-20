@@ -25,8 +25,7 @@ for q in Quotes:
         
         data.append({
             "name": name,
-            "description": description,
-            "detail_page": link
+            "description": description
         })
 
 
