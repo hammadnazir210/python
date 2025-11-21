@@ -1,34 +1,37 @@
-from bs4 import BeautifulSoup
-import requests
 import json
+import requests
+from bs4 import BeautifulSoup
 
-url = "https://quotes.toscrape.com/"
-response = requests.get(url)
-soup = BeautifulSoup(response.text, "html.parser")
-
-Quotes = soup.find_all("div", class_="quote")
-
-data = []    
-
-for q in Quotes:
+def scrape_authors():
     
-    link = "https://quotes.toscrape.com" + q.find("a")["href"]
-
-    response = requests.get(link)
+    """Scrape authors from quotes.toscrape.com and save as JSON."""
+    url = "https://quotes.toscrape.com/"
+    response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    detail = soup.find_all("div", class_="author-details")
 
-    for d in detail:
-        name = d.find("h3", class_="author-title").text.strip()
-        description = d.find("div", class_="author-description").text.strip()
+    quotes = soup.find_all("div", class_="quote")
 
-        
-        data.append({
-            "name": name,
-            "description": description
-        })
+    data = []    
 
+    for quote in quotes:
+    
+        link = "https://quotes.toscrape.com" + quote.find("a")["href"]
+        detail_response = requests.get(link)
+        detail_soup = BeautifulSoup(detail_response.text, "html.parser")
+        details = detail_soup.find_all("div", class_="author-details")
 
-with open("authors.json", "w", encoding="utf-8") as f:
-    json.dump(data, f, indent=4, ensure_ascii=False)
+        for detail in details:
+            name = detail.find("h3", class_="author-title").text.strip()
+            description = detail.find(
+                "div", class_="author-description").text.strip()
+            
+            data.append({
+                "name": name,
+                "description": description
+            })
 
+    with open("authors.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
+
+if __name__ == "__main__":
+    scrape_authors()
