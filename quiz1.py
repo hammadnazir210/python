@@ -2,8 +2,8 @@ import json
 import requests
 from bs4 import BeautifulSoup
 
+
 def scrape_authors():
-    
     """Scrape authors from quotes.toscrape.com and save as JSON."""
     url = "https://quotes.toscrape.com/"
     response = requests.get(url)
